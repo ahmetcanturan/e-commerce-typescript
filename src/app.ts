@@ -4,7 +4,6 @@ import compression from 'compression';
 import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
-import expressLayouts from 'express-ejs-layouts';
 import path from "path"
 import Controller from "./interfaces/controller.interface"
 import ErrorMiddleware from "./middlewares/error.middleware"
@@ -16,14 +15,12 @@ class App {
     constructor(controllers: Controller[],port: number) {
         this.app = express();
         this.port = port;
-        // this.runDatabaseConnection();
+        this.runDatabaseConnection();
         this.runMiddleware();
         this.runControllers(controllers);
         this.runErrorHandling();
     }
     private runMiddleware(): void {
-        this.app.use(expressLayouts)
-        this.app.set('layout','layouts/layout');
         this.app.set('view engine', 'ejs')
         this.app.set("views",path.join(__dirname,"views"))
         this.app.use(express.static(path.join(__dirname,'public')));
@@ -31,7 +28,7 @@ class App {
         this.app.use(cors());
         this.app.use(morgan('dev'));
         this.app.use(express.json());
-        this.app.use(express.urlencoded({ extended: false }));
+        this.app.use(express.urlencoded({ extended: true }));
         this.app.use(compression());
     }
 
@@ -41,32 +38,21 @@ class App {
         });
     }
 
-    // private runControllers():void{
-    //     this.app.get("/",(req,res)=>{
-    //         res.render("index")
-    //     })
-    //       this.app.get("/electronic",(req,res)=>{
-    //         res.render("electronic")
-    //     })
-    //        this.app.get("/fashion",(req,res)=>{
-    //         res.render("fashion")
-    //     })
-    //        this.app.get("/jewellery",(req,res)=>{
-    //         res.render("jewellery")
-    //     })
-    // }
-
     private runErrorHandling(): void {
         this.app.use(ErrorMiddleware);
     }
 
-    // private initialiseDatabaseConnection(): void {
-    //     const { MONGODB_PATH } = process.env;
-
-    //     mongoose.connect(
-    //         `mongodb://${MONGODB_PATH}`
-    //     );
-    // }
+    private runDatabaseConnection(): void {
+        const { DB_URI } = process.env;
+        mongoose.set('strictQuery', false);
+        mongoose.connect(DB_URI,{dbName:"typescript"}
+        ) .then(() => {
+            console.log("Mongodb is Connected..")
+        })
+        .catch((err) => {
+            console.log("DB connection err: ", err)
+        })
+    }
 
     public listen(): void {
         this.app.listen(this.port, () => {

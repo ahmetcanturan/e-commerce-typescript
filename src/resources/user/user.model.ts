@@ -8,6 +8,10 @@ const MongoSchema = new Schema(
             type: String,
             required: true,
         },
+        surname: {
+            type: String,
+            required: true,
+        },
         email: {
             type: String,
             required: true,
@@ -16,10 +20,6 @@ const MongoSchema = new Schema(
         },
         password: {
             type: String,
-        },
-        role: {
-            type: String,
-            required: true,
         },
     },
     { timestamps: true }

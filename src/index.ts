@@ -1,13 +1,13 @@
 import 'dotenv/config';
-import 'module-alias/register';
 import validateEnv from './utils/valideEnv'
 import App from './app';
-import PageController from "./controllers/page/page.controller"
+import PageController from "./controllers/page.controller"
+import UserController from './controllers/user.controller'
 
 validateEnv();
 
 const app = new App([
-    new PageController()
+    new PageController(), new UserController()
 ],Number(process.env.PORT)
 );
 
