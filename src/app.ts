@@ -8,6 +8,7 @@ import path from "path"
 import Controller from "./interfaces/controller.interface"
 import ErrorMiddleware from "./middlewares/error.middleware"
 import cookie from "cookie-parser"
+import authenticated from "./middlewares/authenticated.middleware"
 
 class App {
     public app: Application;
@@ -32,6 +33,7 @@ class App {
         this.app.use(express.urlencoded({ extended: true }));
         this.app.use(compression());
         this.app.use(cookie())
+        this.app.use(authenticated)
     }
 
     private runControllers(controllers: Controller[]): void {

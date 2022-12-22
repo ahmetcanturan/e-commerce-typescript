@@ -4,8 +4,10 @@ declare global {
     namespace Express {
         export interface Request {
             user: User;
-            isLogin: boolean;
             localId: string;
+        }
+        export interface Response {
+            isLogin: boolean;
         }
     }
 }

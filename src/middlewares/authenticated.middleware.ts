@@ -10,6 +10,7 @@ async function authenticatedMiddleware(
     next: NextFunction
 ): Promise<Response | void> {
     try {
+        console.log("girdi")
         const cookie = req?.cookies?.jwt;
         if (cookie) {
             const _token: Token | jwt.JsonWebTokenError = await token.verifyToken(cookie)
@@ -17,12 +18,12 @@ async function authenticatedMiddleware(
                 return res.status(201).clearCookie("jwt").redirect("/login");
             }
             else {
-                req.isLogin = true
+                res.locals.isLogin = true
                 next()
             }
         }
         else {
-            req.isLogin = false
+            res.locals.isLogin = false
             next()
         }
     } catch (error) {
