@@ -6,10 +6,10 @@ class Service {
 
     public async register(
         name: string,
-        surname:string,
+        surname: string,
         email: string,
         password: string
-    ): Promise<string | Error> {
+    ): Promise<object | Error> {
         try {
             const json = await this.user.create({
                 name,
@@ -17,30 +17,28 @@ class Service {
                 email,
                 password
             });
-
             const accessToken = token.createToken(json);
-
-            return accessToken;
+            return { ...json, token: accessToken }
         } catch (error) {
-                throw new Error("Unable to create User");
-
-        }
-    }
-    public async getAll(): Promise<object[] |null| Error> {
-        try {
-                const users=await this.user.find()
-                return users;
-        } catch (error) {
-                throw new Error("Unable to create User");
+            throw new Error("Unable to create User");
 
         }
     }
-    public async findOne(data:object): Promise<object|null| Error> {
+    public async getAll(): Promise<object[] | null | Error> {
         try {
-                const user=await this.user.findOne(data);
-                return user
+            const users = await this.user.find()
+            return users;
         } catch (error) {
-                throw new Error("Unable to create User");
+            throw new Error("Unable to create User");
+
+        }
+    }
+    public async findOne(data: object): Promise<object | null | Error> {
+        try {
+            const user = await this.user.findOne(data);
+            return user
+        } catch (error) {
+            throw new Error("Unable to create User");
 
         }
     }
