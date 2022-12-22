@@ -27,6 +27,9 @@ const validationRender = (req: Request, res: Response, htmlPage: string): Respon
             case "register_warn":
                 res.status(400).render(htmlPage, { record: req.body, error: validationErrors.array() })
                 break;
+            case "login_warn":
+                res.status(400).render(htmlPage, { record: req.body, error: validationErrors.array() })
+                break;
             default:
                 break;
         }

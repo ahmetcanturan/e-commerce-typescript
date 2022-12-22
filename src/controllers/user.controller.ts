@@ -19,6 +19,14 @@ class UserController implements Controller {
         this.router.post(
             `${this.path}/register`, userValidator.create(),
             this.register
+        )
+        this.router.post(
+            `${this.path}/login`, userValidator.login(),
+            this.login
+        );
+        this.router.get(
+            `${this.path}/logout`,
+            this.logout
         );
     }
     private register = async (
@@ -38,6 +46,40 @@ class UserController implements Controller {
                 console.log('Unexpected error', error)
             }
         }
+    }
+    private login = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        try {
+            if (validationRender(req, res, "login_warn") !== null) return
+            const token = await this.userService.login(req.localId)
+            res.status(201).cookie("jwt", token, { httpOnly: true, maxAge: 1000 * 60 * 60 * 12 }).redirect("/products")
+        } catch (error) {
+            if (error instanceof Error) {
+                next(new HttpException(400, error.message));
+            } else {
+                console.log('Unexpected error', error)
+            }
+        }
+
+    }
+    private logout = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        try {
+            res.status(201).clearCookie("jwt").redirect("/login");
+        } catch (error) {
+            if (error instanceof Error) {
+                next(new HttpException(400, error.message));
+            } else {
+                console.log('Unexpected error', error)
+            }
+        }
+
     }
 
 }

@@ -1,5 +1,6 @@
 import UserModel from "./user.model"
 import token from "../../utils/token"
+import User from "./user.interface";
 
 class Service {
     private user = UserModel;
@@ -9,7 +10,7 @@ class Service {
         surname: string,
         email: string,
         password: string
-    ): Promise<object | Error> {
+    ): Promise<User | Error> {
         try {
             const json = await this.user.create({
                 name,
@@ -17,8 +18,7 @@ class Service {
                 email,
                 password
             });
-            const accessToken = token.createToken(json);
-            return { ...json, token: accessToken }
+            return json
         } catch (error) {
             throw new Error("Unable to create User");
 
@@ -33,7 +33,7 @@ class Service {
 
         }
     }
-    public async findOne(data: object): Promise<object | null | Error> {
+    public async findOne(data: object): Promise<User | any | Error> {
         try {
             const user = await this.user.findOne(data);
             return user
@@ -42,23 +42,11 @@ class Service {
 
         }
     }
-
     public async login(
-        email: string,
-        password: string
+        id: string
     ): Promise<string | Error> {
         try {
-            const user = await this.user.findOne({ email });
-
-            if (!user) {
-                throw new Error('Unable to find user with that email address');
-            }
-
-            if (await user.isValidPassword(password)) {
-                return token.createToken(user);
-            } else {
-                throw new Error('Wrong credentials given');
-            }
+            return token.createToken(id)
         } catch (error) {
             throw new Error('Unable to create user');
         }

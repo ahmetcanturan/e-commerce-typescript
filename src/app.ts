@@ -1,4 +1,4 @@
-import express, { Application ,Router } from 'express';
+import express, { Application, Router } from 'express';
 import mongoose from 'mongoose';
 import compression from 'compression';
 import cors from 'cors';
@@ -7,12 +7,13 @@ import helmet from 'helmet';
 import path from "path"
 import Controller from "./interfaces/controller.interface"
 import ErrorMiddleware from "./middlewares/error.middleware"
+import cookie from "cookie-parser"
 
 class App {
     public app: Application;
     public port: number;
 
-    constructor(controllers: Controller[],port: number) {
+    constructor(controllers: Controller[], port: number) {
         this.app = express();
         this.port = port;
         this.runDatabaseConnection();
@@ -22,14 +23,15 @@ class App {
     }
     private runMiddleware(): void {
         this.app.set('view engine', 'ejs')
-        this.app.set("views",path.join(__dirname,"views"))
-        this.app.use(express.static(path.join(__dirname,'public')));
+        this.app.set("views", path.join(__dirname, "views"))
+        this.app.use(express.static(path.join(__dirname, 'public')));
         this.app.use(helmet());
         this.app.use(cors());
         this.app.use(morgan('dev'));
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
         this.app.use(compression());
+        this.app.use(cookie())
     }
 
     private runControllers(controllers: Controller[]): void {
@@ -45,13 +47,13 @@ class App {
     private runDatabaseConnection(): void {
         const { DB_URI } = process.env;
         mongoose.set('strictQuery', false);
-        mongoose.connect(DB_URI,{dbName:"typescript"}
-        ) .then(() => {
+        mongoose.connect(DB_URI, { dbName: "typescript" }
+        ).then(() => {
             console.log("Mongodb is Connected..")
         })
-        .catch((err) => {
-            console.log("DB connection err: ", err)
-        })
+            .catch((err) => {
+                console.log("DB connection err: ", err)
+            })
     }
 
     public listen(): void {

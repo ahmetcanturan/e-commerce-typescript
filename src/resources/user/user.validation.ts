@@ -1,4 +1,3 @@
-import { Request } from 'express'
 import { body, query, param } from 'express-validator'
 import UserService from "./user.service"
 
@@ -30,13 +29,13 @@ const userValidator = {
                     const result = await userService.findOne({ email: value })
                     const pass = req?.body?.password
                     if (!result) throw new Error("You entered a wrong email")
-                    else if (pass == undefined) throw new Error("You didn't enter a password")
-
-                    return true
-                }),
-            body('password')
-                .notEmpty({ ignore_whitespace: true }).withMessage("You must write a password")
-                .isLength({ min: 7, max: 30 }).withMessage("Password must include 7-30 characters"),
+                    else if (pass === undefined) throw new Error("You didn't enter a password")
+                    else if (await result.isValidPassword(pass)) {
+                        req.localId = result._id
+                        return true
+                    }
+                    else throw new Error("You entered a wrong password")
+                })
         ]
     }
 }

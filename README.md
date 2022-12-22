@@ -8,3 +8,4 @@ npm i jsonwebtoken @types/jsonwebtoken
 npm i bcrypt @types/bcrypt
 npm i mongoose
 npm install express-validator @types/express-validator
+npm i cookie-parser @types/cookie-parser
