@@ -10,7 +10,6 @@ async function authenticatedMiddleware(
     next: NextFunction
 ): Promise<Response | void> {
     try {
-        console.log("girdi")
         const cookie = req?.cookies?.jwt;
         if (cookie) {
             const _token: Token | jwt.JsonWebTokenError = await token.verifyToken(cookie)

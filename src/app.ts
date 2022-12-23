@@ -9,6 +9,7 @@ import Controller from "./interfaces/controller.interface"
 import ErrorMiddleware from "./middlewares/error.middleware"
 import cookie from "cookie-parser"
 import authenticated from "./middlewares/authenticated.middleware"
+import fileUpload from "express-fileupload"
 
 class App {
     public app: Application;
@@ -33,6 +34,7 @@ class App {
         this.app.use(express.urlencoded({ extended: true }));
         this.app.use(compression());
         this.app.use(cookie())
+        this.app.use(fileUpload())// * Form üzerinden dosya indirilmek istendiğinde body bilgisini alabilmek için
         this.app.use(authenticated)
     }
 

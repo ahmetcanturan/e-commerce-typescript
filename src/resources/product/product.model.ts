@@ -3,16 +3,40 @@ import Product from "./product.interface"
 
 const MongoSchema = new Schema(
     {
-        title: {
-            type: String,
+        name: {
+            type: Schema.Types.String,
             required: true,
         },
-        body: {
-            type: String,
+        desc: {
+            type: Schema.Types.String,
             required: true,
         },
+        img_path: {
+            type: Schema.Types.String,
+            default: "noFoto"
+        },
+        stock: {
+            type: Schema.Types.Number,
+            required: true
+        },
+        price: {
+            type: Schema.Types.Number,
+            required: true
+        },
+        sold_quantity: {
+            type: Schema.Types.Number,
+            default: 0
+        },
+        click: {
+            type: Schema.Types.Number,
+            default: 0
+        }
     },
-    { timestamps: true }
+    {
+        minimize: true,
+        timestamps: true,
+        autoIndex: true
+    }
 );
 
 export default model<Product>('Product', MongoSchema);

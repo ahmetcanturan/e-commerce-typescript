@@ -1,9 +1,9 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import Controller from "../interfaces/controller.interface"
-import HttpException from "../utils/exceptions/http.exception"
-import userValidator from "../resources/user/user.validation"
-import UserService from "../resources/user/user.service"
-import { validationRender } from '../utils/index';
+import Controller from "../../interfaces/controller.interface"
+import HttpException from "../../utils/exceptions/http.exception"
+import userValidator from "./user.validation"
+import UserService from "./user.service"
+import { validationRender } from '../../utils/index';
 
 
 class UserController implements Controller {

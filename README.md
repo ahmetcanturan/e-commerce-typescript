@@ -9,3 +9,5 @@ npm i bcrypt @types/bcrypt
 npm i mongoose
 npm install express-validator @types/express-validator
 npm i cookie-parser @types/cookie-parser
+npm i  express-fileupload @types/express-fileupload
+npm i multer @types/multer
