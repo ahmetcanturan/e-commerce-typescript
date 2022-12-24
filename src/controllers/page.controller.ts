@@ -1,14 +1,11 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import Controller from "../interfaces/controller.interface"
 import HttpException from "../utils/exceptions/http.exception"
-// import validationMiddleware from '@/middleware/validation.middleware';
-// import validate from '@/resources/post/post.validation';
-import ProductService from "../resources/product/product.service"
+import adminMiddleware from '../middlewares/admin.middleware';
 
 class PageController implements Controller {
     public path = ''
     public router = Router()
-    private productService = new ProductService()
 
     constructor() {
         this.runRoutes();
@@ -17,7 +14,6 @@ class PageController implements Controller {
     private runRoutes(): void {
         this.router.get(
             `${this.path}/`,
-            // validationMiddleware(validate.create),
             this.home
         );
         this.router.get(
@@ -42,7 +38,7 @@ class PageController implements Controller {
             this.login
         );
         this.router.get(
-            `${this.path}/product/create`,
+            `${this.path}/product/create`, adminMiddleware,
             this.productCreate
         );
     }

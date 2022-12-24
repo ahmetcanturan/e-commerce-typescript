@@ -29,19 +29,24 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/contact">Contact Us</a>
                         </li>
-                        <% if(!isLogin) {%>
+                        <% if(aut==="false" ) {%>
                             <li class="nav-item">
                                 <a class="nav-link" href="/register">Register</a>
                             </li>
                             <% }%>
+                                <% if(aut==="admin" ) {%>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/product/create">Admin</a>
+                                    </li>
+                                    <% }%>
                     </ul>
                     <div class="user_optio_box">
-                        <% if(isLogin) {%>
+                        <% if(aut !=="false" ) {%>
                             <a href="/logout">
                                 <i class="fa fa-sign-out" style="font-size:24px" aria-hidden="true"></i>
                             </a>
                             <% }%>
-                                <% if(!isLogin) {%>
+                                <% if(aut==="false" ) {%>
                                     <a href="/login">
                                         <i class="fa fa-user" style="font-size:24px" aria-hidden="true"></i>
                                     </a>

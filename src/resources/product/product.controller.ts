@@ -4,7 +4,6 @@ import HttpException from "../../utils/exceptions/http.exception"
 import ProductValidator from "./product.validation"
 import ProductService from "./product.service"
 import { validationRender } from '../../utils/index';
-// import fileUpload from "../../middlewares/fileUpload.middleware"
 import imgUpload from "../../utils/file_process/file.upload"
 
 

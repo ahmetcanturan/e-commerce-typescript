@@ -6,6 +6,7 @@ declare global {
             localId: string;
         }
         export interface Response {
+            aut: string;
             isLogin: boolean;
         }
     }

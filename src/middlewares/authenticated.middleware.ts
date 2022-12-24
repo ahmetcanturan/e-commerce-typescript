@@ -3,6 +3,7 @@ import token from "../utils/token"
 import Token from "../interfaces/token.interface"
 import HttpException from "../utils/exceptions/http.exception"
 import jwt from 'jsonwebtoken';
+import { admin } from "../utils/definitions/const"
 
 async function authenticatedMiddleware(
     req: Request,
@@ -14,15 +15,16 @@ async function authenticatedMiddleware(
         if (cookie) {
             const _token: Token | jwt.JsonWebTokenError = await token.verifyToken(cookie)
             if (_token instanceof jwt.JsonWebTokenError) {
-                return res.status(201).clearCookie("jwt").redirect("/login");
+                return res.status(201).clearCookie("jwt").redirect("/");
             }
             else {
-                res.locals.isLogin = true
+                if (admin.includes(_token.id)) res.locals.aut = "admin"
+                else res.locals.aut = "true"
                 next()
             }
         }
         else {
-            res.locals.isLogin = false
+            res.locals.aut = "false"
             next()
         }
     } catch (error) {
