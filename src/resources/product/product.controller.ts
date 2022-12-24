@@ -4,6 +4,7 @@ import HttpException from "../../utils/exceptions/http.exception"
 import ProductValidator from "./product.validation"
 import ProductService from "./product.service"
 import { validationRender } from '../../utils/index';
+import fileUpload from "../../middlewares/fileUpload.middleware"
 
 
 class ProductController implements Controller {
@@ -17,7 +18,7 @@ class ProductController implements Controller {
 
     private runRoutes(): void {
         this.router.post(
-            `${this.path}/create`, ProductValidator.create(),
+            `${this.path}/create`, fileUpload, ProductValidator.create(),
             this.create
         )
     }
@@ -28,7 +29,10 @@ class ProductController implements Controller {
     ): Promise<Response | void> => {
         try {
             if (validationRender(req, res, "p_create_warn") !== null) return
-            await this.productService.create(req.body)
+            console.log(req.body)
+
+            await this.productService.create({ ...req.body, img_path: req.file.filename })
+
             res.status(201).redirect("/products")
         } catch (error) {
             if (error instanceof Error) {
