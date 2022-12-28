@@ -1,0 +1,44 @@
+<%- include("./partials/header.ejs") %>
+    <%- include("./partials/navbar.ejs") %>
+
+
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (item of products){%>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>
+                            <%=item.name%>
+                        </td>
+                        <td>Otto</td>
+                        <td> <a href="/">
+                                <i class="fa fa-remove" style="font-size:24px;color:red""></i></td>
+                    </a>
+                </tr>
+                            <% }%>
+            </tbody>
+        </table>
+        <hr>
+        <table class=" table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Totally</th>
+                                        </tr>
+                                    </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1$</th>
+                </tr>
+            </tbody>
+        </table>
+
+        <%- include("./partials/footer.ejs") %>

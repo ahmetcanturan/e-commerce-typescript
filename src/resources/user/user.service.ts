@@ -42,6 +42,24 @@ class Service {
 
         }
     }
+    public async findById(id: string): Promise<User | any | Error> {
+        try {
+            const user = await this.user.findById(id);
+            return user
+        } catch (error) {
+            throw new Error("Unable to create User");
+
+        }
+    }
+    public async updateById(id: string, data: object): Promise<User | any | Error> {
+        try {
+            const user = await this.user.findByIdAndUpdate(id, data)
+            return user
+        } catch (error) {
+            throw new Error("Unable to create User");
+
+        }
+    }
     public async login(
         id: string
     ): Promise<string | Error> {

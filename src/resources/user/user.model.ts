@@ -21,6 +21,12 @@ const MongoSchema = new Schema(
         password: {
             type: String,
         },
+        cartId: {
+            type: String,
+            default: "0",
+            unique: true,
+            ref: "Cart"
+        },
     },
     { timestamps: true }
 );
