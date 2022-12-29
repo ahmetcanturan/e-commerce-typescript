@@ -20,6 +20,10 @@ class CartController implements Controller {
             `${this.path}/create/:productId`, detectClient,
             this.create
         )
+        this.router.post(
+            `${this.path}/delete/:productId`, detectClient,
+            this.deleteByProductId
+        )
     }
     private create = async (
         req: Request,
@@ -39,6 +43,22 @@ class CartController implements Controller {
                 res.status(201).redirect("/products")
                 return
             }
+        } catch (error) {
+            if (error instanceof Error) {
+                next(new HttpException(400, error.message));
+            } else {
+                console.log('Unexpected error', error)
+            }
+        }
+    }
+    private deleteByProductId = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        try {
+            await this.cartService.deleteByProductId(res.locals.user.cartId, req.params.productId)
+            res.status(201).redirect("/cart")
         } catch (error) {
             if (error instanceof Error) {
                 next(new HttpException(400, error.message));

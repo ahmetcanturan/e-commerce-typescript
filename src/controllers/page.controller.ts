@@ -5,6 +5,7 @@ import adminMiddleware from '../middlewares/admin.middleware';
 import ProductService from "../resources/product/product.service"
 import detectClient from "../middlewares/detectClient.middleware"
 import CartService from "../resources/cart/cart.service"
+import AdressService from "../resources/adress/adress.service"
 const productService = new ProductService()
 class PageController implements Controller {
     public path = ''
@@ -47,6 +48,10 @@ class PageController implements Controller {
         this.router.get(
             `${this.path}/product/create`, adminMiddleware,
             this.productCreate
+        );
+        this.router.get(
+            `${this.path}/adress/create`, detectClient,
+            this.adressCreate
         );
     }
     private home = async (req: Request, res: Response, next: NextFunction)
@@ -162,7 +167,26 @@ class PageController implements Controller {
         try {
             const cartService = new CartService()
             const json = await cartService.findOnePopulate({ userId: res.locals.user._id })
-            res.status(201).render("cart", { products: json.products })
+            const totally = await cartService.calculateCartTotally(json.products)
+            res.status(201).render("cart", { products: json.products, totally })
+        } catch (error) {
+            if (error instanceof Error) {
+                next(new HttpException(400, error.message));
+            } else {
+                console.log('Unexpected error', error)
+            }
+        }
+    }
+    private adressCreate = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        try {
+            const adressService = new AdressService()
+            const record = await adressService.adressControls(res.locals.user._id)
+            if (record === null) res.status(201).render("adress_create")
+            else res.status(201).render("adress_create_warn", { error: [], record })
         } catch (error) {
             if (error instanceof Error) {
                 next(new HttpException(400, error.message));

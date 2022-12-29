@@ -19,24 +19,33 @@
                         <td>
                             <%=item.name%>
                         </td>
-                        <td>Otto</td>
-                        <td> <a href="/">
-                                <i class="fa fa-remove" style="font-size:24px;color:red""></i></td>
-                    </a>
-                </tr>
-                            <% }%>
+                        <td>
+                            <%=item.price%>
+                        </td>
+                        <form action="/cart/delete/<%=item.id%>" method="post">
+                            <td>
+                                <button type="submit">
+                                    <i class="fa fa-remove" style="font-size:24px;color:red"></i>
+                                </button>
+                            </td>
+                        </form>
+
+                    </tr>
+                    <% }%>
             </tbody>
         </table>
         <hr>
         <table class=" table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Totally</th>
-                                        </tr>
-                                    </thead>
+            <thead>
+                <tr>
+                    <th scope="col">Totally</th>
+                </tr>
+            </thead>
             <tbody>
                 <tr>
-                    <th scope="row">1$</th>
+                    <th scope="row" style="color:red">
+                        <%=totally%>$
+                    </th>
                 </tr>
             </tbody>
         </table>

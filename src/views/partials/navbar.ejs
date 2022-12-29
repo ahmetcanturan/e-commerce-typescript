@@ -34,11 +34,16 @@
                                 <a class="nav-link" href="/register">Register</a>
                             </li>
                             <% }%>
-                                <% if(aut==="admin" ) {%>
+                                <% if(aut!=="false" ) {%>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/product/create">Admin</a>
+                                        <a class="nav-link" href="/adress/create">My Adress</a>
                                     </li>
                                     <% }%>
+                                        <% if(aut==="admin" ) {%>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="/product/create">Admin</a>
+                                            </li>
+                                            <% }%>
                     </ul>
                     <div class="user_optio_box">
                         <% if(aut !=="false" ) {%>
